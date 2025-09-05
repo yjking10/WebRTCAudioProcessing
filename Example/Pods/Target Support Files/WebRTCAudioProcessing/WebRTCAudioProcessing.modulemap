@@ -1,0 +1,6 @@
+framework module WebRTCAudioProcessing {
+  umbrella header "WebRTCAudioProcessing-umbrella.h"
+
+  export *
+  module * { export * }
+}

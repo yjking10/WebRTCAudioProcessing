@@ -1,0 +1,41 @@
+{
+  "name": "WebRTCAudioProcessing",
+  "version": "0.1.0",
+  "summary": "A short description of WebRTCAudioProcessing.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/yjking10/WebRTCAudioProcessing",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "yjking10": "yj_king10@163.com"
+  },
+  "source": {
+    "git": "https://github.com/yjking10/WebRTCAudioProcessing.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "WebRTCAudioProcessing/Classes/**/*",
+  "public_header_files": "Classes/**/*.h",
+  "xcconfig": {
+    "OTHER_LDFLAGS": "-ObjC -lc++"
+  },
+  "vendored_libraries": "WebRTCAudioProcessing/audio_processing/lib/libwebrtc-audio-processing-2.a",
+  "libraries": [
+    "icucore",
+    "c++",
+    "bz2",
+    "z",
+    "iconv"
+  ],
+  "pod_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": "$(inherited) \"$(PODS_TARGET_SRCROOT)/WebRTCAudioProcessing/audio_processing/include\" \"$(PODS_TARGET_SRCROOT)/WebRTCAudioProcessing/audio_processing/include/webrtc-audio-processing-2\"",
+    "CLANG_CXX_LANGUAGE_STANDARD": "c++17",
+    "CLANG_CXX_LIBRARY": "libc++",
+    "DEFINES_MODULE": "YES",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "i386"
+  }
+}
