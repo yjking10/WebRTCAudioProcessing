@@ -31,8 +31,9 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'WebRTCAudioProcessing/Classes/**/*.{h,m,mm}'
-  s.public_header_files = 'WebRTCAudioProcessing/Classes/**/*.h'
-  s.header_dir = 'WebRTCAudioProcessing'
+   # ✅ 保留整个 audio_processing 目录（关键！）
+  s.preserve_paths = 'audio_processing/**/*'
+
 
   s.xcconfig = {
       'OTHER_LDFLAGS' => '-ObjC -lc++'
@@ -40,7 +41,7 @@ TODO: Add long description of the pod here.
   s.vendored_libraries = 'WebRTCAudioProcessing/audio_processing/lib/libwebrtc-audio-processing-2.a'
   s.libraries = "icucore", "c++", "bz2", "z", "iconv"
   s.pod_target_xcconfig = {
-     'HEADER_SEARCH_PATHS' => '$(inherited) "$(PODS_TARGET_SRCROOT)/WebRTCAudioProcessing/audio_processing/include" "$(PODS_TARGET_SRCROOT)/WebRTCAudioProcessing/audio_processing/include/webrtc-audio-processing-2"',
+     'HEADER_SEARCH_PATHS' => '$(inherited) "$(PODS_TARGET_SRCROOT)/audio_processing/include" "$(PODS_TARGET_SRCROOT)/audio_processing/include/webrtc-audio-processing-2"',
       'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17',
   'CLANG_CXX_LIBRARY' => 'libc++',
      'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
