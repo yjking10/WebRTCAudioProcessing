@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WebRTCAudioProcessing'
-  s.version          = '1.0.2.2'
+  s.version          = '1.0.2.3'
   s.summary          = 'A short description of WebRTCAudioProcessing.'
 
 # This description is used to generate tags and improve search results.
@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'WebRTCAudioProcessing/Classes/**/*.{h,m,mm}'
+  s.source_files = 'Classes/**/*.{h,m,mm}'
    # ✅ 保留整个 audio_processing 目录（关键！）
   s.preserve_paths = 'audio_processing/**/*'
 
@@ -38,7 +38,7 @@ TODO: Add long description of the pod here.
   s.xcconfig = {
       'OTHER_LDFLAGS' => '-ObjC -lc++'
     }
-  s.vendored_libraries = 'WebRTCAudioProcessing/audio_processing/lib/libwebrtc-audio-processing-2.a'
+  s.vendored_libraries = 'audio_processing/lib/libwebrtc-audio-processing-2.a'
   s.libraries = "icucore", "c++", "bz2", "z", "iconv"
   s.pod_target_xcconfig = {
      'HEADER_SEARCH_PATHS' => '$(inherited) "$(PODS_TARGET_SRCROOT)/audio_processing/include" "$(PODS_TARGET_SRCROOT)/audio_processing/include/webrtc-audio-processing-2"',
