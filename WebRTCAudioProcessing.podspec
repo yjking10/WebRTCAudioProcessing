@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WebRTCAudioProcessing'
-  s.version          = '1.0.2.4'
+  s.version          = '1.0.2.5'
   s.summary          = 'A short description of WebRTCAudioProcessing.'
 
 # This description is used to generate tags and improve search results.
