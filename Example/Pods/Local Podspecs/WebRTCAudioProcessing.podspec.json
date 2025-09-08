@@ -1,6 +1,6 @@
 {
   "name": "WebRTCAudioProcessing",
-  "version": "1.0.2",
+  "version": "1.0.2.3",
   "summary": "A short description of WebRTCAudioProcessing.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/yjking10/WebRTCAudioProcessing",
@@ -13,18 +13,14 @@
   },
   "source": {
     "git": "https://github.com/yjking10/WebRTCAudioProcessing.git",
-    "tag": "1.0.2"
+    "tag": "1.0.2.3"
   },
   "platforms": {
     "ios": "10.0"
   },
-  "source_files": "WebRTCAudioProcessing/Classes/**/*",
-  "public_header_files": "WebRTCAudioProcessing/Classes/**/*.h",
-  "header_dir": "WebRTCAudioProcessing",
-  "xcconfig": {
-    "OTHER_LDFLAGS": "-ObjC -lc++"
-  },
-  "vendored_libraries": "WebRTCAudioProcessing/audio_processing/lib/libwebrtc-audio-processing-2.a",
+  "source_files": "Classes/**/*.{h,m,mm}",
+  "preserve_paths": "audio_processing/**/*",
+  "vendored_libraries": "audio_processing/lib/libwebrtc-audio-processing-2.a",
   "libraries": [
     "icucore",
     "c++",
@@ -33,7 +29,8 @@
     "iconv"
   ],
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "$(inherited) \"$(PODS_TARGET_SRCROOT)/WebRTCAudioProcessing/audio_processing/include\" \"$(PODS_TARGET_SRCROOT)/WebRTCAudioProcessing/audio_processing/include/webrtc-audio-processing-2\"",
+    "OTHER_LDFLAGS": "-ObjC -lc++",
+    "HEADER_SEARCH_PATHS": "$(inherited) \"$(PODS_TARGET_SRCROOT)/audio_processing/include\" \"$(PODS_TARGET_SRCROOT)/audio_processing/include/webrtc-audio-processing-2\"",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++17",
     "CLANG_CXX_LIBRARY": "libc++",
     "DEFINES_MODULE": "YES",
