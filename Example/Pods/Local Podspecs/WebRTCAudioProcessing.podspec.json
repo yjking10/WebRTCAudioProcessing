@@ -19,6 +19,8 @@
     "ios": "10.0"
   },
   "source_files": "WebRTCAudioProcessing/Classes/**/*",
+  "public_header_files": "WebRTCAudioProcessing/Classes/**/*.h",
+  "header_dir": "WebRTCAudioProcessing",
   "xcconfig": {
     "OTHER_LDFLAGS": "-ObjC -lc++"
   },

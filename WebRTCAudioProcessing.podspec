@@ -30,7 +30,10 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'WebRTCAudioProcessing/Classes/**/*'
+  s.source_files = 'WebRTCAudioProcessing/Classes/**/*.{h,m,mm}'
+  s.public_header_files = 'WebRTCAudioProcessing/Classes/**/*.h'
+  s.header_dir = 'WebRTCAudioProcessing'
+
   s.xcconfig = {
       'OTHER_LDFLAGS' => '-ObjC -lc++'
     }
