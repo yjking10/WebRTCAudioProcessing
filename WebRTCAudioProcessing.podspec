@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WebRTCAudioProcessing'
-  s.version          = '1.0.3'
+  s.version          = '1.0.4'
   s.summary          = 'A short description of WebRTCAudioProcessing.'
 
 # This description is used to generate tags and improve search results.
@@ -31,12 +31,15 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '12.0'
 
   s.source_files = 'WebRTCAudioProcessing/Classes/**/*.{h,m,mm}'
+  # ✅ 2. 声明公共头文件（让外部能 #import "AudioProcessingWrapper.h"）
+   s.public_header_files = 'WebRTCAudioProcessing/Classes/**/*.h'
+   s.vendored_libraries = 'WebRTCAudioProcessing/audio_processing/lib/libwebrtc-audio-processing-2.a'
+
    # ✅ 保留整个 audio_processing 目录（关键！）
   s.preserve_paths = 'WebRTCAudioProcessing/audio_processing/**/*'
     s.static_framework = true
 
 
-  s.vendored_libraries = 'WebRTCAudioProcessing/audio_processing/lib/libwebrtc-audio-processing-2.a'
   s.libraries = ['icucore', 'c++', 'bz2', 'z', 'iconv']
   s.pod_target_xcconfig = {
     'OTHER_LDFLAGS' => '-ObjC -lc++',
@@ -46,6 +49,10 @@ TODO: Add long description of the pod here.
     # 'DEFINES_MODULE' => 'YES',
        'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64', # 排除所有模拟器架构
        }
+  
+  
+#  s.header_mappings_dir = 'WebRTCAudioProcessing/audio_processing/include'
+
   
   # s.resource_bundles = {
   #   'WebRTCAudioProcessing' => ['WebRTCAudioProcessing/Assets/*.png']
