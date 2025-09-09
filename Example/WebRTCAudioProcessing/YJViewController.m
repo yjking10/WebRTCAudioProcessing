@@ -7,7 +7,8 @@
 //
 
 #import "YJViewController.h"
-#import "AudioProcessingWrapper.h"
+//#import "AudioProcessingWrapper.h"
+#import <WebRTCAudioProcessing/AudioProcessingWrapper.h>
 #define DEFAULT_BLOCK_MS 10
 #define DEFAULT_RATE 16000
 #define DEFAULT_CHANNELS 2
