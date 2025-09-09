@@ -3,11 +3,11 @@ use_frameworks!
 platform :ios, '12.0'
 
 target 'WebRTCAudioProcessing_Example' do
-  #pod 'WebRTCAudioProcessing', :path => '../'
+  pod 'WebRTCAudioProcessing', :path => '../'
 	
   #pod 'WebRTCAudioProcessing'
 	
-  pod 'WebRTCAudioProcessing', '1.0.4'
+  #pod 'WebRTCAudioProcessing', '1.0.4'
 
   target 'WebRTCAudioProcessing_Tests' do
     inherit! :search_paths

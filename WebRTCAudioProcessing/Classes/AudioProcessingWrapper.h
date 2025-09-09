@@ -43,6 +43,8 @@ GainControllerModeFixedDigital
 // Audio processing
 - (NSData *)processAudioFrame:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels;
 
+
+- (NSData *)processAudioFrameFloat:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels ;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -9,10 +9,18 @@
 #import "YJViewController.h"
 //#import "AudioProcessingWrapper.h"
 #import <WebRTCAudioProcessing/AudioProcessingWrapper.h>
+#import "AudioPlayerFlauto.h"
 #define DEFAULT_BLOCK_MS 10
 #define DEFAULT_RATE 16000
 #define DEFAULT_CHANNELS 2
+
 @interface YJViewController ()
+{
+    AudioPlayerFlauto * _flautoPlayer;
+    
+    
+    
+}
 @property (strong, nonatomic) AudioProcessingWrapper *apWrapper;
 
 @end
@@ -28,7 +36,83 @@
 
     self.apWrapper =[[AudioProcessingWrapper alloc] init];
     
+    _flautoPlayer = [ [AudioPlayerFlauto alloc] init];
+
+    
 }
+
+
+- (IBAction)play:(id)sender {
+    
+    NSString *audioFileURL = @"https://resource.datauseful.com/app/test/REC_0001.MP3";
+
+    
+
+    // 获取沙盒 Documents 路径
+    NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    // 拼接目标文件路径
+    NSString *filePath = [docsDir stringByAppendingPathComponent:@"REC_0001.MP3"];
+
+    // 判断文件是否已存在
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSLog(@"文件已存在，直接使用: %@", filePath);
+        [_flautoPlayer startPlayerFromURL:[NSURL URLWithString:audioFileURL] codec:0 channels:2 interleaved:YES sampleRate:16000 bufferSize:4096];
+//            [_flautoPlayer startPlayerCodec: 0 fromURI:filePath fromDataBuffer:nil channels:2 interleaved:YES sampleRate:16000 bufferSize:4096];
+
+    } else {
+        NSLog(@"文件不存在，开始下载...");
+
+        NSURL *url = [NSURL URLWithString:audioFileURL];
+        NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
+            dataTaskWithURL:url
+            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                if (error) {
+                    NSLog(@"下载失败: %@", error);
+                    return;
+                }
+
+                // 写入沙盒
+                NSError *writeError = nil;
+                BOOL success = [data writeToFile:filePath options:NSDataWritingAtomic error:&writeError];
+                if (success) {
+                    NSLog(@"下载并保存成功，路径: %@", filePath);
+                    [_flautoPlayer startPlayerFromURL:[NSURL URLWithString:audioFileURL] codec:0 channels:2 interleaved:YES sampleRate:16000 bufferSize:4096];
+
+                } else {
+                    NSLog(@"写入失败: %@", writeError);
+                }
+            }];
+
+        [downloadTask resume];
+    }
+
+    // 开启远程控制事件（比如锁屏时控制播放）
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+//
+//
+////    t_CODEC d = mp3;
+//
+//    NSString*audioFileURL = @"https://resource.datauseful.com/app/test/REC_0001.MP3";
+//
+//
+//
+//
+//    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
+//            dataTaskWithURL:[NSURL URLWithString:audioFileURL] completionHandler:
+//            ^(NSData* data, NSURLResponse *response, NSError* error)
+//            {
+//
+//        [self->_flautoPlayer startPlayerCodec:mp3 fromURI:nil fromDataBuffer:data channels:2 interleaved:YES sampleRate:16000 bufferSize:2976];
+//
+//
+//            }];
+//    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+//    [downloadTask resume];
+    
+//    [_flautoPlayer startPlayerCodec: mp3 fromURI:audioFileURL fromDataBuffer:nil channels:2 interleaved:YES sampleRate:16000 bufferSize:2976];
+}
+
+
 
 - (IBAction)audioProgcessing:(id)sender {
     NSString *filename = @"REC_0001.raw";

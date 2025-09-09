@@ -10,14 +10,14 @@ PODS:
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
   - Specta (1.0.7)
-  - WebRTCAudioProcessing (1.0.4)
+  - WebRTCAudioProcessing (1.0.5)
 
 DEPENDENCIES:
   - Expecta
   - "Expecta+Snapshots"
   - FBSnapshotTestCase
   - Specta
-  - WebRTCAudioProcessing (= 1.0.4)
+  - WebRTCAudioProcessing (from `../`)
 
 SPEC REPOS:
   trunk:
@@ -25,15 +25,18 @@ SPEC REPOS:
     - "Expecta+Snapshots"
     - FBSnapshotTestCase
     - Specta
-    - WebRTCAudioProcessing
+
+EXTERNAL SOURCES:
+  WebRTCAudioProcessing:
+    :path: "../"
 
 SPEC CHECKSUMS:
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   "Expecta+Snapshots": dcff217eef506dabd6dfdc7864ea2da321fafbb8
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
-  WebRTCAudioProcessing: 58f4f7a24f572ec57234b234c84f4a37583f4bd9
+  WebRTCAudioProcessing: a0cc35665af9710c15b661446eb62ff22f8aca4d
 
-PODFILE CHECKSUM: c2f3cca956526d40e29d936659ce2aadad251058
+PODFILE CHECKSUM: 5af9e00bac77d4deffd230c90c79b51c09a79aef
 
 COCOAPODS: 1.16.2

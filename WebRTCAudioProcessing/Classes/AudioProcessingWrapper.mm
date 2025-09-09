@@ -144,4 +144,74 @@ using namespace webrtc;
     return [_processedBuffer copy];
 }
 
+
+- (NSData *)processAudioFrameFloat:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels {
+    if (!pcmData || pcmData.length == 0) return nil;
+    if (sampleRate <= 0 || channels <= 0) return nil;
+
+    const float *interleaved = (const float *)pcmData.bytes;
+    int frameCount = (int)(pcmData.length / sizeof(float) / channels);
+
+    // Step 1: 分配 deinterleaved buffers（src 和 dest）
+    float **srcChannels = (float **)calloc(channels, sizeof(float*));
+    float **destChannels = (float **)calloc(channels, sizeof(float*));
+
+    // 为每个 channel 分配 buffer
+    for (int c = 0; c < channels; c++) {
+        srcChannels[c] = (float *)malloc(frameCount * sizeof(float));
+        destChannels[c] = (float *)malloc(frameCount * sizeof(float));
+    }
+
+    // Step 2: Interleaved → Deinterleaved
+    for (int c = 0; c < channels; c++) {
+        for (int i = 0; i < frameCount; i++) {
+            srcChannels[c][i] = interleaved[i * channels + c];
+        }
+    }
+
+    // Step 3: WebRTC 处理（降噪、AGC、AEC 等）
+    webrtc::StreamConfig config(sampleRate, channels); // float = true
+
+    int result = _apm->ProcessStream(
+        const_cast<const float* const*>(srcChannels),  // src
+        config,                                        // input config
+        config,                                        // output config
+        destChannels                                   // dest
+    );
+
+    if (result != webrtc::AudioProcessing::kNoError) {
+        NSLog(@"Audio processing failed: %d", result);
+
+        // 清理
+        for (int c = 0; c < channels; c++) {
+            free(srcChannels[c]);
+            free(destChannels[c]);
+        }
+        free(srcChannels);
+        free(destChannels);
+
+        return nil;
+    }
+
+    // Step 4: Deinterleaved → Interleaved（写回）
+    NSMutableData *outputData = [[NSMutableData alloc] initWithLength:frameCount * channels * sizeof(float)];
+    float *outInterleaved = (float *)outputData.mutableBytes;
+
+    for (int i = 0; i < frameCount; i++) {
+        for (int c = 0; c < channels; c++) {
+            outInterleaved[i * channels + c] = destChannels[c][i];
+        }
+    }
+
+    // Step 5: 清理
+    for (int c = 0; c < channels; c++) {
+        free(srcChannels[c]);
+        free(destChannels[c]);
+    }
+    free(srcChannels);
+    free(destChannels);
+
+    return [outputData copy];
+}
+
 @end

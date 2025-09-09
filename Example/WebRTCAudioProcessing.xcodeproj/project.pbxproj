@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3961EBE32E6FFE620024AB04 /* AudioPlayerFlauto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3961EBE22E6FFE620024AB04 /* AudioPlayerFlauto.m */; };
 		39F67E3D2E6AB92400ADF9CC /* REC_0001.raw in Resources */ = {isa = PBXBuildFile; fileRef = 39F67E3C2E6AB92400ADF9CC /* REC_0001.raw */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -39,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		2B3A6DFE5D9F5FEC7B59FFC9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		3961EBE12E6FFE620024AB04 /* AudioPlayerFlauto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioPlayerFlauto.h; sourceTree = "<group>"; };
+		3961EBE22E6FFE620024AB04 /* AudioPlayerFlauto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerFlauto.m; sourceTree = "<group>"; };
 		39F67E3C2E6AB92400ADF9CC /* REC_0001.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = REC_0001.raw; sourceTree = "<group>"; };
 		4D1FC5BFF3016962EB6AFBCC /* Pods-WebRTCAudioProcessing_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTCAudioProcessing_Example.debug.xcconfig"; path = "Target Support Files/Pods-WebRTCAudioProcessing_Example/Pods-WebRTCAudioProcessing_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4DCC755B27E4B2FD617DC953 /* Pods_WebRTCAudioProcessing_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WebRTCAudioProcessing_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +157,8 @@
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				3961EBE12E6FFE620024AB04 /* AudioPlayerFlauto.h */,
+				3961EBE22E6FFE620024AB04 /* AudioPlayerFlauto.m */,
 			);
 			name = "Example for WebRTCAudioProcessing";
 			path = WebRTCAudioProcessing;
@@ -379,6 +384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* YJAppDelegate.m in Sources */,
+				3961EBE32E6FFE620024AB04 /* AudioPlayerFlauto.m in Sources */,
 				6003F5A7195388D20070C39A /* YJViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
