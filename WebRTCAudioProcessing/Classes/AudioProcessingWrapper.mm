@@ -1,5 +1,4 @@
 #import "AudioProcessingWrapper.h"
-#import <Foundation/Foundation.h>
 
 // WebRTC C++ headers
 #include "webrtc-audio-processing-2/modules/audio_processing/include/audio_processing.h"
@@ -31,7 +30,7 @@ using namespace webrtc;
     // Default gain control
     config.gain_controller1.enabled = true;
     config.gain_controller1.mode = AudioProcessing::Config::GainController1::kAdaptiveDigital;
-    config.gain_controller1.target_level_dbfs = 3;
+    config.gain_controller1.target_level_dbfs = 0;
     config.gain_controller1.compression_gain_db = 12;
     config.gain_controller1.enable_limiter = true;
 
@@ -122,7 +121,7 @@ using namespace webrtc;
 }
 
 #pragma mark - Audio Processing
-
+#pragma mark - 处理 16-bit Int 音频（交错）
 - (NSData *)processAudioFrame:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels {
     if (!pcmData || pcmData.length == 0) return nil;
     if (sampleRate <= 0 || channels <= 0) return nil;
@@ -143,6 +142,69 @@ using namespace webrtc;
 
     return [_processedBuffer copy];
 }
+
+
+- (void)processBuffer10ms:(AVAudioPCMBuffer *)buffer {
+    int channels = (int)buffer.format.channelCount;
+    int sampleRate = (int)buffer.format.sampleRate;
+    int frameCount = (int)buffer.frameLength;
+    NSLog(@"processBuffer10ms: %@", [buffer.format description]);
+
+    // 每个声道的指针
+    std::vector<float*> channelPtrs(channels);
+    for (int c = 0; c < channels; c++) {
+        channelPtrs[c] = buffer.floatChannelData[c];
+    }
+    
+    StreamConfig inputConfig(sampleRate, channels);
+    StreamConfig outputConfig(sampleRate, channels);
+    
+    int ret = _apm->ProcessStream((const float* const*)channelPtrs.data(),
+                                 inputConfig,
+                                 outputConfig,
+                                 channelPtrs.data());
+    if (ret != 0) {
+        NSLog(@"ProcessStream failed: %d", ret);
+    }
+}
+
+- (void)processBuffer:(AVAudioPCMBuffer *)buffer {
+    int channels = (int)buffer.format.channelCount;
+    int sampleRate = (int)buffer.format.sampleRate;
+    int frameCount = (int)buffer.frameLength;
+    
+    NSLog(@"ProcessStream channels: %d sampleRate: %d frameCount: %d", channels, sampleRate,frameCount);
+    std::vector<float*> channelPtrs(channels);
+    for (int c = 0; c < channels; c++) {
+        channelPtrs[c] = buffer.floatChannelData[c];
+    }
+    
+    webrtc::StreamConfig inputConfig(sampleRate, channels);
+    webrtc::StreamConfig outputConfig(sampleRate, channels);
+
+    // ⚠️ 每次只处理 10ms 的数据
+    int samplesPer10ms = sampleRate / 100; // 480 for 48kHz
+    int totalFrames = frameCount;
+    int offset = 0;
+    
+    while (offset + samplesPer10ms <= totalFrames) {
+        std::vector<float*> blockPtrs(channels);
+        for (int c = 0; c < channels; c++) {
+            blockPtrs[c] = channelPtrs[c] + offset;
+        }
+        
+        int ret = _apm->ProcessStream((const float* const*)blockPtrs.data(),
+                                     inputConfig,
+                                     outputConfig,
+                                     blockPtrs.data());
+        if (ret != 0) {
+            NSLog(@"ProcessStream failed: %d", ret);
+        }
+        
+        offset += samplesPer10ms;
+    }
+}
+
 
 
 - (NSData *)processAudioFrameFloat:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels {
@@ -214,4 +276,115 @@ using namespace webrtc;
     return [outputData copy];
 }
 
+
+//
+//
+//- (void)processInt16Audio:(int16_t *)audioData  sampleRate:(int)sampleRate channels:(int)channels {
+//    StreamConfig config;
+//    config.set_sample_rate_hz(self.sampleRate);
+//    config.set_num_channels(self.numChannels);
+//    config.set_bits_per_sample(16);
+//
+//    int err = self.apm->ProcessStream(
+//        audioData,
+//        config,
+//        config,
+//        audioData
+//    );
+//
+//    if (err != AudioProcessing::kNoError) {
+//        NSLog(@"WebRTC ProcessStream (int16) error: %d", err);
+//    }
+//}
+//
+//#pragma mark - 处理 Float 音频（非交错，多通道）
+//
+//- (void)processFloatAudio:(float **)channelBuffers numberOfChannels:(int)channels numberOfFrames:(int)frameCount {
+//    StreamConfig config;
+//    config.set_sample_rate_hz(self.sampleRate);
+//    config.set_num_channels(channels);
+//    config.set_bits_per_sample(32);
+//
+//    int err = self.apm->ProcessStream(
+//        const_cast<const float* const*>(channelBuffers),
+//        config,
+//        config,
+//        channelBuffers
+//    );
+//
+//    if (err != AudioProcessing::kNoError) {
+//        NSLog(@"WebRTC ProcessStream (float) error: %d", err);
+//    }
+//}
+//
+//#pragma mark - 新增：处理 AVAudioPCMBuffer
+//
+//- (void)processAudioBuffer:(AVAudioPCMBuffer *)buffer {
+//    // 检查 buffer 是否有效
+//    if (!buffer.int16ChannelData && !buffer.floatChannelData) {
+//        NSLog(@"Invalid audio buffer: no channel data");
+//        return;
+//    }
+//
+//    const int frameLength = (int)buffer.frameLength;
+//    const int channels = (int)buffer.format.channelCount;
+//
+//    // 确保采样率匹配（提前配置好）
+//    double sampleRate = buffer.format.sampleRate;
+//
+//
+//    // === 情况 1: Float 格式（最常见于 AVAudioEngine）===
+//    if (buffer.floatChannelData) {
+//        float **floatBuffers = buffer.floatChannelData;
+//
+//        // WebRTC 要求 float 范围为 [-1, 1]，AVAudioPCMBuffer 默认符合
+//        [self processFloatAudio:floatBuffers
+//           numberOfChannels:channels
+//           numberOfFrames:frameLength];
+//
+//        return;
+//    }
+//
+//    // === 情况 2: Int16 格式（较少见，但支持）===
+//    if (buffer.int16ChannelData) {
+//        // 注意：int16 是交错数据 per channel buffer
+//        int16_t *int16Buffer = buffer.int16ChannelData[0]; // 单通道直接取；多通道需合并？
+//
+//        // ⚠️ 如果是多通道，WebRTC 的 int16 接口要求是 **交错数据（interleaved）**
+//        // 但 AVAudioPCMBuffer 的 int16ChannelData 是 **非交错的（每个通道独立）**
+//        // 所以我们需要先转成交错格式（仅当多通道时）
+//
+//        if (channels == 1) {
+//            [self processInt16Audio:int16Buffer numberOfFrames:frameLength];
+//        } else {
+//            // 多通道 int16 → 需要手动交错化（interleave）
+//            int totalSamples = frameLength * channels;
+//            int16_t *interleaved = (int16_t *)malloc(totalSamples * sizeof(int16_t));
+//
+//            for (int i = 0; i < frameLength; i++) {
+//                for (int c = 0; c < channels; c++) {
+//                    interleaved[i * channels + c] = buffer.int16ChannelData[c][i];
+//                }
+//            }
+//
+//            [self processInt16Audio:interleaved numberOfFrames:frameLength];
+//
+//            // 写回（可选：是否需要写回处理后数据？）
+//            for (int i = 0; i < frameLength; i++) {
+//                for (int c = 0; c < channels; c++) {
+//                    buffer.int16ChannelData[c][i] = interleaved[i * channels + c];
+//                }
+//            }
+//
+//            free(interleaved);
+//        }
+//        return;
+//    }
+//
+//    NSLog(@"Unsupported PCM format in AVAudioPCMBuffer");
+//}
+
+
 @end
+
+

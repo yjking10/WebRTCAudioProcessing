@@ -7,7 +7,7 @@ target 'WebRTCAudioProcessing_Example' do
 	
   #pod 'WebRTCAudioProcessing'
 	
-  #pod 'WebRTCAudioProcessing', '1.0.4'
+  #pod 'WebRTCAudioProcessing', '1.0.5.1'
 
   target 'WebRTCAudioProcessing_Tests' do
     inherit! :search_paths

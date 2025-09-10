@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,10 +41,14 @@ GainControllerModeFixedDigital
 // Transient suppression
 - (void)setTransientSuppressionEnabled:(BOOL)enabled;
 
-// Audio processing
+#pragma mark - 处理 16-bit Int 音频（交错）
 - (NSData *)processAudioFrame:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels;
 
+- (void)processBuffer10ms:(AVAudioPCMBuffer *)buffer;
 
+- (void)processBuffer:(AVAudioPCMBuffer *)buffer ;
+
+#pragma mark - 处理 Float 音频（非交错，多通道）
 - (NSData *)processAudioFrameFloat:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels ;
 @end
 
