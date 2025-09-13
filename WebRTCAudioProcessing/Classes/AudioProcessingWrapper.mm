@@ -25,7 +25,7 @@ using namespace webrtc;
 
     // Default noise suppression (can be adjusted later)
     config.noise_suppression.enabled = true;
-    config.noise_suppression.level = AudioProcessing::Config::NoiseSuppression::kHigh;
+    config.noise_suppression.level = AudioProcessing::Config::NoiseSuppression::kVeryHigh;
 
     // Default gain control
     config.gain_controller1.enabled = true;
@@ -167,13 +167,13 @@ using namespace webrtc;
         NSLog(@"ProcessStream failed: %d", ret);
     }
 }
-
 - (void)processBuffer:(AVAudioPCMBuffer *)buffer {
     int channels = (int)buffer.format.channelCount;
     int sampleRate = (int)buffer.format.sampleRate;
     int frameCount = (int)buffer.frameLength;
     
-    NSLog(@"ProcessStream channels: %d sampleRate: %d frameCount: %d", channels, sampleRate,frameCount);
+    NSLog(@"ProcessStream channels: %d sampleRate: %d frameCount: %d", channels, sampleRate, frameCount);
+    
     std::vector<float*> channelPtrs(channels);
     for (int c = 0; c < channels; c++) {
         channelPtrs[c] = buffer.floatChannelData[c];
@@ -181,13 +181,14 @@ using namespace webrtc;
     
     webrtc::StreamConfig inputConfig(sampleRate, channels);
     webrtc::StreamConfig outputConfig(sampleRate, channels);
-
-    // ⚠️ 每次只处理 10ms 的数据
-    int samplesPer10ms = sampleRate / 100; // 480 for 48kHz
+    
+    int samplesPer10ms = sampleRate / 100;
     int totalFrames = frameCount;
     int offset = 0;
     
+    // 1. 处理完整的 10ms 块
     while (offset + samplesPer10ms <= totalFrames) {
+        NSLog(@"Processing full block: offset=%d, length=%d", offset, samplesPer10ms);
         std::vector<float*> blockPtrs(channels);
         for (int c = 0; c < channels; c++) {
             blockPtrs[c] = channelPtrs[c] + offset;
@@ -203,6 +204,28 @@ using namespace webrtc;
         
         offset += samplesPer10ms;
     }
+    
+    
+//     2. ⭐⭐⭐ 处理剩余的不足 10ms 的帧 ⭐⭐⭐
+//    if (offset < totalFrames) {
+//        int remainingFrames = totalFrames - offset;
+//        NSLog(@"Processing remaining block: offset=%d, length=%d", offset, remainingFrames);
+//        
+//        std::vector<float*> blockPtrs(channels);
+//        for (int c = 0; c < channels; c++) {
+//            blockPtrs[c] = channelPtrs[c] + offset;
+//        }
+//        
+//        int ret = _apm->ProcessStream((const float* const*)blockPtrs.data(),
+//                                     inputConfig,
+//                                     outputConfig,
+//                                     blockPtrs.data());
+//        if (ret != 0) {
+//            NSLog(@"ProcessStream (remaining) failed: %d", ret);
+//        }
+//        
+//        offset += remainingFrames; // 可选：标记处理完成
+//    }
 }
 
 
@@ -298,24 +321,22 @@ using namespace webrtc;
 //}
 //
 //#pragma mark - 处理 Float 音频（非交错，多通道）
-//
-//- (void)processFloatAudio:(float **)channelBuffers numberOfChannels:(int)channels numberOfFrames:(int)frameCount {
-//    StreamConfig config;
-//    config.set_sample_rate_hz(self.sampleRate);
-//    config.set_num_channels(channels);
-//    config.set_bits_per_sample(32);
-//
-//    int err = self.apm->ProcessStream(
-//        const_cast<const float* const*>(channelBuffers),
-//        config,
-//        config,
-//        channelBuffers
-//    );
-//
-//    if (err != AudioProcessing::kNoError) {
-//        NSLog(@"WebRTC ProcessStream (float) error: %d", err);
-//    }
-//}
+
+- (void)processFloatAudio:(float **)channelBuffers sampleRate:(int)sampleRate channels:(int)channels  {
+    webrtc::StreamConfig config(sampleRate, channels);
+    NSLog(@"WebRTC ProcessStream (float) sampleRate: %d, channels: %d", sampleRate, channels );
+
+    int err = _apm->ProcessStream(
+        const_cast<const float* const*>(channelBuffers),
+        config,
+        config,
+        channelBuffers
+    );
+
+    if (err != AudioProcessing::kNoError) {
+        NSLog(@"WebRTC ProcessStream (float) error: %d", err);
+    }
+}
 //
 //#pragma mark - 新增：处理 AVAudioPCMBuffer
 //

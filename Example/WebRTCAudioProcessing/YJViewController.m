@@ -21,6 +21,7 @@
 //#import "PlayerViewModel.h"
 
 #import "PlayerViewModel2.h"
+#import "YJAudioPlayer.h"
 
 @interface YJViewController ()
 {
@@ -35,6 +36,7 @@
 
 //@property (nonatomic, strong) PlayerViewModel * playerViewModel;
 @property (nonatomic, strong) PlayerViewModel2 * playerViewModel2;
+@property (nonatomic, strong) YJAudioPlayer * yjAudioPlayer;
 
 @end
 
@@ -73,13 +75,20 @@
 //    
 //    _playerViewModel = [[PlayerViewModel alloc] init];
     
-    _playerViewModel2 = [[PlayerViewModel2 alloc] init];
+//    _playerViewModel2 = [[PlayerViewModel2 alloc] init];
 
-    
+    _yjAudioPlayer = [[YJAudioPlayer alloc] init];
 }
 
 
 - (IBAction)play:(id)sender {
+        NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"REC_0001" withExtension:@"MP3"];
+
+    [_yjAudioPlayer setupAudioUrl:fileURL];
+    [_yjAudioPlayer playOrPause];
+    
+    return;
+
     
     [_playerViewModel2 playOrPause];
     

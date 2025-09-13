@@ -610,7 +610,6 @@
               const AudioTimeStamp *timestamp,
               AVAudioFrameCount frameCount,
               AudioBufferList *outputData) {
-
     
         NSLog(@"outputData mNumberBuffers= %d;  frameCount= %d",outputData->mNumberBuffers, frameCount);
         // 准备一个中间 PCMBuffer

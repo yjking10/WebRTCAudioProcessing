@@ -50,6 +50,10 @@ GainControllerModeFixedDigital
 
 #pragma mark - 处理 Float 音频（非交错，多通道）
 - (NSData *)processAudioFrameFloat:(NSData *)pcmData sampleRate:(int)sampleRate channels:(int)channels ;
+
+
+- (void)processFloatAudio:(float **)channelBuffers sampleRate:(int)sampleRate channels:(int)channels ;
+
 @end
 
 NS_ASSUME_NONNULL_END

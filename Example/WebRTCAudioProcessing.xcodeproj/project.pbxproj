@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3942D7722E72212F00E2DEDC /* AudioNoiseReductionPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3942D7712E72212F00E2DEDC /* AudioNoiseReductionPlayer.m */; };
+		3942D7752E72218100E2DEDC /* NoiseReductionNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3942D7742E72218100E2DEDC /* NoiseReductionNode.m */; };
 		3961EC452E700D150024AB04 /* REC_0001.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = 3961EC442E700D150024AB04 /* REC_0001.MP3 */; };
 		3961EC482E700FAF0024AB04 /* NoiseReducedPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3961EC472E700FAF0024AB04 /* NoiseReducedPlayer.m */; };
 		3961EC4B2E7026790024AB04 /* DenoiseAudioUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3961EC4A2E7026790024AB04 /* DenoiseAudioUnit.m */; };
@@ -17,6 +19,7 @@
 		399845712E712137008FA6AC /* Intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 399845702E712137008FA6AC /* Intro.mp3 */; };
 		399845752E714EF7008FA6AC /* 1752599658.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 399845742E714EF7008FA6AC /* 1752599658.mp3 */; };
 		399845782E717A79008FA6AC /* PlayerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 399845772E717A79008FA6AC /* PlayerTime.m */; };
+		3998457B2E718F23008FA6AC /* YJAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3998457A2E718F23008FA6AC /* YJAudioPlayer.m */; };
 		39F67E3D2E6AB92400ADF9CC /* REC_0001.raw in Resources */ = {isa = PBXBuildFile; fileRef = 39F67E3C2E6AB92400ADF9CC /* REC_0001.raw */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -49,6 +52,10 @@
 
 /* Begin PBXFileReference section */
 		2B3A6DFE5D9F5FEC7B59FFC9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		3942D7702E72212F00E2DEDC /* AudioNoiseReductionPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioNoiseReductionPlayer.h; sourceTree = "<group>"; };
+		3942D7712E72212F00E2DEDC /* AudioNoiseReductionPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioNoiseReductionPlayer.m; sourceTree = "<group>"; };
+		3942D7732E72218100E2DEDC /* NoiseReductionNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoiseReductionNode.h; sourceTree = "<group>"; };
+		3942D7742E72218100E2DEDC /* NoiseReductionNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoiseReductionNode.m; sourceTree = "<group>"; };
 		3961EC442E700D150024AB04 /* REC_0001.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = REC_0001.MP3; sourceTree = "<group>"; };
 		3961EC462E700FAF0024AB04 /* NoiseReducedPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoiseReducedPlayer.h; sourceTree = "<group>"; };
 		3961EC472E700FAF0024AB04 /* NoiseReducedPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoiseReducedPlayer.m; sourceTree = "<group>"; };
@@ -65,6 +72,8 @@
 		399845742E714EF7008FA6AC /* 1752599658.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1752599658.mp3; sourceTree = "<group>"; };
 		399845762E717A79008FA6AC /* PlayerTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerTime.h; sourceTree = "<group>"; };
 		399845772E717A79008FA6AC /* PlayerTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerTime.m; sourceTree = "<group>"; };
+		399845792E718F23008FA6AC /* YJAudioPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJAudioPlayer.h; sourceTree = "<group>"; };
+		3998457A2E718F23008FA6AC /* YJAudioPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJAudioPlayer.m; sourceTree = "<group>"; };
 		39F67E3C2E6AB92400ADF9CC /* REC_0001.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = REC_0001.raw; sourceTree = "<group>"; };
 		4D1FC5BFF3016962EB6AFBCC /* Pods-WebRTCAudioProcessing_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTCAudioProcessing_Example.debug.xcconfig"; path = "Target Support Files/Pods-WebRTCAudioProcessing_Example/Pods-WebRTCAudioProcessing_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4DCC755B27E4B2FD617DC953 /* Pods_WebRTCAudioProcessing_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WebRTCAudioProcessing_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,10 +201,16 @@
 				399845432E70E5CA008FA6AC /* AudioPlayer.m */,
 				3998456A2E711C57008FA6AC /* PlayerViewModel2.h */,
 				3998456B2E711C57008FA6AC /* PlayerViewModel2.m */,
+				399845792E718F23008FA6AC /* YJAudioPlayer.h */,
+				3998457A2E718F23008FA6AC /* YJAudioPlayer.m */,
 				3998456D2E711D06008FA6AC /* PlaybackValue.h */,
 				3998456E2E711D06008FA6AC /* PlaybackValue.m */,
 				399845762E717A79008FA6AC /* PlayerTime.h */,
 				399845772E717A79008FA6AC /* PlayerTime.m */,
+				3942D7702E72212F00E2DEDC /* AudioNoiseReductionPlayer.h */,
+				3942D7712E72212F00E2DEDC /* AudioNoiseReductionPlayer.m */,
+				3942D7732E72218100E2DEDC /* NoiseReductionNode.h */,
+				3942D7742E72218100E2DEDC /* NoiseReductionNode.m */,
 			);
 			name = "Example for WebRTCAudioProcessing";
 			path = WebRTCAudioProcessing;
@@ -428,10 +443,13 @@
 				3998456C2E711C57008FA6AC /* PlayerViewModel2.m in Sources */,
 				6003F59E195388D20070C39A /* YJAppDelegate.m in Sources */,
 				399845442E70E5CA008FA6AC /* AudioPlayer.m in Sources */,
+				3942D7752E72218100E2DEDC /* NoiseReductionNode.m in Sources */,
 				3998456F2E711D06008FA6AC /* PlaybackValue.m in Sources */,
 				3961EC4B2E7026790024AB04 /* DenoiseAudioUnit.m in Sources */,
 				6003F5A7195388D20070C39A /* YJViewController.m in Sources */,
 				3961EC482E700FAF0024AB04 /* NoiseReducedPlayer.m in Sources */,
+				3942D7722E72212F00E2DEDC /* AudioNoiseReductionPlayer.m in Sources */,
+				3998457B2E718F23008FA6AC /* YJAudioPlayer.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
